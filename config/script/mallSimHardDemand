@@ -1,0 +1,147 @@
+{
+  "query":{
+    "filtered": {
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "not": {
+                "filter": {
+                  "query": {
+                    "match": {
+                      "passport_id": ${_source.passport_id default=0}
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "term": {
+                "demand_type": 2
+              }
+            }
+          ]
+        }
+      },
+      "query": {
+        "function_score": {
+          "functions": [
+            {
+              "weight": 3.7,
+              "filter": {
+                "terms": {
+                  "category_name": ${_source.category_name default=[""]}
+                }
+              }
+            },
+            {
+              "weight": 3.7,
+              "filter": {
+                "term": {
+                  "area_id": ${_source.area_id default=[0]}
+                }
+              }
+            },
+            {
+              "weight": -2,
+              "filter": {
+                "not": {
+                  "filter": {
+                    "term": {
+                      "area_id": ${_source.area_id default=[0]}
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "weight": 1.4,
+              "filter": {
+                "terms": {
+                  "demand_shop_type_name":${_source.demand_shop_type_name default=[""]}
+                }
+              }
+            },
+            {
+              "weight": 1.4,
+              "filter": {
+                "term": {
+                  "demand_status": 2
+                }
+              }
+            },
+            {
+              "weight": 1.3,
+              "filter": {
+                "term": {
+                  "demand_status": 1
+                }
+              }
+            },
+            {
+              "weight": 1.1,
+              "filter": {
+                "term": {
+                  "demand_status": 0
+                }
+              }
+            },
+            {
+              "weight": 1.05,
+              "filter": {
+                "term": {
+                  "demand_show_mobile": 1
+                }
+              }
+            },
+            {
+              "weight": 1.02,
+              "filter": {
+                "term": {
+                  "demand_show_mobile": 2
+                }
+              }
+            },
+            {
+              "weight": 1.8,
+              "filter": {
+                "range": {
+                  "infoScore.tag.shopArea.lower": {
+                    "gte": ${_source.infoScore.tag.shopArea.lower coefficient=0.8 default=0},
+                    "lte": ${_source.infoScore.tag.shopArea.lower coefficient=1.2 default=0}
+                  }
+                }
+              }
+            },
+            {
+              "weight": 1.8,
+              "filter": {
+                "range": {
+                  "infoScore.tag.shopArea.upper": {
+                    "gte": ${_source.infoScore.tag.shopArea.upper coefficient=0.8 default=0},
+                    "lte": ${_source.infoScore.tag.shopArea.upper coefficient=1.2 default=0}
+                  }
+                }
+              }
+            }
+          ],
+          "score_mode": "sum"
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "_score": {
+        "order": "desc"
+      }
+    },
+    {
+      "infoScore.demand_level": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": ${from},
+  "size": ${size}
+}

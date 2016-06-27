@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fangcheng.mybatis.mapper.PassportBrowseMapper">
+  
+  <!-- 避免重复统计用户登录次数，在统计之前先清理一下  -->
+  <delete id="deleteByDate" parameterType="java.lang.String">
+    DELETE 
+	FROM
+	  fangcheng_data_team.passport_browse 
+	WHERE exec_date = #{exec_date}
+  </delete>
+  <!-- 按天统计用户登录次数 -->
+  <insert id="insertInto" parameterType="PassportBrowse">
+  	INSERT INTO fangcheng_data_team.passport_browse 
+  	  (
+	   passport_id,
+	   exec_date,
+	   browse_totalnum,
+	   demandshow_num,
+	   shopsearch_num,
+	   brand_num,
+	   mall_num,
+	   search_num
+	  ) 
+	VALUES
+	  (
+	   #{passport_id}, 
+	   #{exec_date}, 
+	   #{browsetotalnum}, 
+	   #{demandshownum}, 
+	   #{shopsearchnum}, 
+	   #{brandnum}, 
+	   #{mallnum}, 
+	   #{searchnum}
+	  )
+  </insert>
+</mapper>

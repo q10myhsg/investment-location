@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fangcheng.mybatis.mapper.ProcedureMapper">
+	
+	<select id="runProcedure" parameterType="java.lang.String">
+		CALL fangcheng_data_team.pro_main(#{time1})
+	</select>
+	
+</mapper>
+
+

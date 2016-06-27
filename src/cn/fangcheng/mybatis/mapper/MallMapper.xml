@@ -1,0 +1,860 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.fangcheng.mybatis.mapper.MallMapper" >
+  <resultMap id="BaseResultMap" type="cn.fangcheng.mybatis.po.Mall" >
+    <id column="mall_id" property="mallId" jdbcType="INTEGER" />
+    <result column="mall_name" property="mallName" jdbcType="VARCHAR" />
+    <result column="mall_desc" property="mallDesc" jdbcType="VARCHAR" />
+    <result column="mall_ctime" property="mallCtime" jdbcType="TIMESTAMP" />
+    <result column="mall_opening_date" property="mallOpeningDate" jdbcType="DATE" />
+    <result column="mall_closed_date" property="mallClosedDate" jdbcType="DATE" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="district_id" property="districtId" jdbcType="INTEGER" />
+    <result column="mall_address" property="mallAddress" jdbcType="VARCHAR" />
+    <result column="mall_building_size" property="mallBuildingSize" jdbcType="INTEGER" />
+    <result column="mall_business_size" property="mallBusinessSize" jdbcType="INTEGER" />
+    <result column="mall_cover_area" property="mallCoverArea" jdbcType="VARCHAR" />
+    <result column="developer_name" property="developerName" jdbcType="VARCHAR" />
+    <result column="mall_floor_size" property="mallFloorSize" jdbcType="INTEGER" />
+    <result column="mall_handbook" property="mallHandbook" jdbcType="VARCHAR" />
+    <result column="mall_longitude" property="mallLongitude" jdbcType="INTEGER" />
+    <result column="mall_latitude" property="mallLatitude" jdbcType="INTEGER" />
+    <result column="mall_logo" property="mallLogo" jdbcType="VARCHAR" />
+    <result column="mall_parking" property="mallParking" jdbcType="INTEGER" />
+    <result column="mall_property_company" property="mallPropertyCompany" jdbcType="VARCHAR" />
+    <result column="mall_rent_size" property="mallRentSize" jdbcType="INTEGER" />
+    <result column="mall_tel" property="mallTel" jdbcType="VARCHAR" />
+    <result column="mall_type" property="mallType" jdbcType="VARCHAR" />
+    <result column="mall_under_floor" property="mallUnderFloor" jdbcType="TINYINT" />
+    <result column="mall_upper_floor" property="mallUpperFloor" jdbcType="TINYINT" />
+    <result column="mall_website" property="mallWebsite" jdbcType="VARCHAR" />
+    <result column="mall_weibo" property="mallWeibo" jdbcType="VARCHAR" />
+    <result column="mall_weixin" property="mallWeixin" jdbcType="VARCHAR" />
+    <result column="spider_channel_id" property="spiderChannelId" jdbcType="INTEGER" />
+    <result column="spider_channel_web_id" property="spiderChannelWebId" jdbcType="INTEGER" />
+    <result column="spider_channel_hot" property="spiderChannelHot" jdbcType="INTEGER" />
+    <result column="spider_channel_hot_old" property="spiderChannelHotOld" jdbcType="INTEGER" />
+    <result column="spider_channel_hot_up" property="spiderChannelHotUp" jdbcType="INTEGER" />
+    <result column="mall_search_name" property="mallSearchName" jdbcType="VARCHAR" />
+    <result column="mall_baike_url" property="mallBaikeUrl" jdbcType="VARCHAR" />
+    <result column="mall_in_web" property="mallInWeb" jdbcType="TINYINT" />
+    <result column="weekday_hours" property="weekdayHours" jdbcType="VARCHAR" />
+    <result column="weekend_hours" property="weekendHours" jdbcType="VARCHAR" />
+    <result column="business_circle_id" property="businessCircleId" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="mall_has_contact" property="mallHasContact" jdbcType="TINYINT" />
+    <result column="mall_search_option" property="mallSearchOption" jdbcType="VARCHAR" />
+    <result column="mall_search_keywords" property="mallSearchKeywords" jdbcType="VARCHAR" />
+    <result column="mall_status" property="mallStatus" jdbcType="TINYINT" />
+    <result column="mall_combine_status" property="mallCombineStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    mall_id, mall_name, mall_desc, mall_ctime, CASE WHEN DATE_FORMAT(mall_opening_date,'%Y-%m-%d') = "0000-00-00" THEN NULL ELSE mall_opening_date END, CASE WHEN DATE_FORMAT(mall_closed_date,'%Y-%m-%d') = "0000-00-00" THEN NULL ELSE mall_closed_date END , area_id, 
+    district_id, mall_address, mall_building_size, mall_business_size, mall_cover_area, 
+    developer_name, mall_floor_size, mall_handbook, mall_longitude, mall_latitude, mall_logo, 
+    mall_parking, mall_property_company, mall_rent_size, mall_tel, mall_type, mall_under_floor, 
+    mall_upper_floor, mall_website, mall_weibo, mall_weixin, spider_channel_id, spider_channel_web_id, 
+    spider_channel_hot, spider_channel_hot_old, spider_channel_hot_up, mall_search_name, 
+    mall_baike_url, mall_in_web, weekday_hours, weekend_hours, business_circle_id, company_id, 
+    mall_has_contact, mall_search_option, mall_search_keywords, mall_status, mall_combine_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.fangcheng.mybatis.po.MallExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mall
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall
+    where mall_id = #{mallId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mall
+    where mall_id = #{mallId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.fangcheng.mybatis.po.MallExample" >
+    delete from mall
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.fangcheng.mybatis.po.Mall" >
+    insert into mall (mall_id, mall_name, mall_desc, 
+      mall_ctime, mall_opening_date, mall_closed_date, 
+      area_id, district_id, mall_address, 
+      mall_building_size, mall_business_size, mall_cover_area, 
+      developer_name, mall_floor_size, mall_handbook, 
+      mall_longitude, mall_latitude, mall_logo, 
+      mall_parking, mall_property_company, mall_rent_size, 
+      mall_tel, mall_type, mall_under_floor, 
+      mall_upper_floor, mall_website, mall_weibo, 
+      mall_weixin, spider_channel_id, spider_channel_web_id, 
+      spider_channel_hot, spider_channel_hot_old, 
+      spider_channel_hot_up, mall_search_name, mall_baike_url, 
+      mall_in_web, weekday_hours, weekend_hours, 
+      business_circle_id, company_id, mall_has_contact, 
+      mall_search_option, mall_search_keywords, mall_status, 
+      mall_combine_status)
+    values (#{mallId,jdbcType=INTEGER}, #{mallName,jdbcType=VARCHAR}, #{mallDesc,jdbcType=VARCHAR}, 
+      #{mallCtime,jdbcType=TIMESTAMP}, #{mallOpeningDate,jdbcType=DATE}, #{mallClosedDate,jdbcType=DATE}, 
+      #{areaId,jdbcType=INTEGER}, #{districtId,jdbcType=INTEGER}, #{mallAddress,jdbcType=VARCHAR}, 
+      #{mallBuildingSize,jdbcType=INTEGER}, #{mallBusinessSize,jdbcType=INTEGER}, #{mallCoverArea,jdbcType=VARCHAR}, 
+      #{developerName,jdbcType=VARCHAR}, #{mallFloorSize,jdbcType=INTEGER}, #{mallHandbook,jdbcType=VARCHAR}, 
+      #{mallLongitude,jdbcType=INTEGER}, #{mallLatitude,jdbcType=INTEGER}, #{mallLogo,jdbcType=VARCHAR}, 
+      #{mallParking,jdbcType=INTEGER}, #{mallPropertyCompany,jdbcType=VARCHAR}, #{mallRentSize,jdbcType=INTEGER}, 
+      #{mallTel,jdbcType=VARCHAR}, #{mallType,jdbcType=VARCHAR}, #{mallUnderFloor,jdbcType=TINYINT}, 
+      #{mallUpperFloor,jdbcType=TINYINT}, #{mallWebsite,jdbcType=VARCHAR}, #{mallWeibo,jdbcType=VARCHAR}, 
+      #{mallWeixin,jdbcType=VARCHAR}, #{spiderChannelId,jdbcType=INTEGER}, #{spiderChannelWebId,jdbcType=INTEGER}, 
+      #{spiderChannelHot,jdbcType=INTEGER}, #{spiderChannelHotOld,jdbcType=INTEGER}, 
+      #{spiderChannelHotUp,jdbcType=INTEGER}, #{mallSearchName,jdbcType=VARCHAR}, #{mallBaikeUrl,jdbcType=VARCHAR}, 
+      #{mallInWeb,jdbcType=TINYINT}, #{weekdayHours,jdbcType=VARCHAR}, #{weekendHours,jdbcType=VARCHAR}, 
+      #{businessCircleId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{mallHasContact,jdbcType=TINYINT}, 
+      #{mallSearchOption,jdbcType=VARCHAR}, #{mallSearchKeywords,jdbcType=VARCHAR}, #{mallStatus,jdbcType=TINYINT}, 
+      #{mallCombineStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.fangcheng.mybatis.po.Mall" >
+    insert into mall
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mallId != null" >
+        mall_id,
+      </if>
+      <if test="mallName != null" >
+        mall_name,
+      </if>
+      <if test="mallDesc != null" >
+        mall_desc,
+      </if>
+      <if test="mallCtime != null" >
+        mall_ctime,
+      </if>
+      <if test="mallOpeningDate != null" >
+        mall_opening_date,
+      </if>
+      <if test="mallClosedDate != null" >
+        mall_closed_date,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="districtId != null" >
+        district_id,
+      </if>
+      <if test="mallAddress != null" >
+        mall_address,
+      </if>
+      <if test="mallBuildingSize != null" >
+        mall_building_size,
+      </if>
+      <if test="mallBusinessSize != null" >
+        mall_business_size,
+      </if>
+      <if test="mallCoverArea != null" >
+        mall_cover_area,
+      </if>
+      <if test="developerName != null" >
+        developer_name,
+      </if>
+      <if test="mallFloorSize != null" >
+        mall_floor_size,
+      </if>
+      <if test="mallHandbook != null" >
+        mall_handbook,
+      </if>
+      <if test="mallLongitude != null" >
+        mall_longitude,
+      </if>
+      <if test="mallLatitude != null" >
+        mall_latitude,
+      </if>
+      <if test="mallLogo != null" >
+        mall_logo,
+      </if>
+      <if test="mallParking != null" >
+        mall_parking,
+      </if>
+      <if test="mallPropertyCompany != null" >
+        mall_property_company,
+      </if>
+      <if test="mallRentSize != null" >
+        mall_rent_size,
+      </if>
+      <if test="mallTel != null" >
+        mall_tel,
+      </if>
+      <if test="mallType != null" >
+        mall_type,
+      </if>
+      <if test="mallUnderFloor != null" >
+        mall_under_floor,
+      </if>
+      <if test="mallUpperFloor != null" >
+        mall_upper_floor,
+      </if>
+      <if test="mallWebsite != null" >
+        mall_website,
+      </if>
+      <if test="mallWeibo != null" >
+        mall_weibo,
+      </if>
+      <if test="mallWeixin != null" >
+        mall_weixin,
+      </if>
+      <if test="spiderChannelId != null" >
+        spider_channel_id,
+      </if>
+      <if test="spiderChannelWebId != null" >
+        spider_channel_web_id,
+      </if>
+      <if test="spiderChannelHot != null" >
+        spider_channel_hot,
+      </if>
+      <if test="spiderChannelHotOld != null" >
+        spider_channel_hot_old,
+      </if>
+      <if test="spiderChannelHotUp != null" >
+        spider_channel_hot_up,
+      </if>
+      <if test="mallSearchName != null" >
+        mall_search_name,
+      </if>
+      <if test="mallBaikeUrl != null" >
+        mall_baike_url,
+      </if>
+      <if test="mallInWeb != null" >
+        mall_in_web,
+      </if>
+      <if test="weekdayHours != null" >
+        weekday_hours,
+      </if>
+      <if test="weekendHours != null" >
+        weekend_hours,
+      </if>
+      <if test="businessCircleId != null" >
+        business_circle_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="mallHasContact != null" >
+        mall_has_contact,
+      </if>
+      <if test="mallSearchOption != null" >
+        mall_search_option,
+      </if>
+      <if test="mallSearchKeywords != null" >
+        mall_search_keywords,
+      </if>
+      <if test="mallStatus != null" >
+        mall_status,
+      </if>
+      <if test="mallCombineStatus != null" >
+        mall_combine_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mallId != null" >
+        #{mallId,jdbcType=INTEGER},
+      </if>
+      <if test="mallName != null" >
+        #{mallName,jdbcType=VARCHAR},
+      </if>
+      <if test="mallDesc != null" >
+        #{mallDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mallCtime != null" >
+        #{mallCtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mallOpeningDate != null" >
+        #{mallOpeningDate,jdbcType=DATE},
+      </if>
+      <if test="mallClosedDate != null" >
+        #{mallClosedDate,jdbcType=DATE},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=INTEGER},
+      </if>
+      <if test="mallAddress != null" >
+        #{mallAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mallBuildingSize != null" >
+        #{mallBuildingSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallBusinessSize != null" >
+        #{mallBusinessSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallCoverArea != null" >
+        #{mallCoverArea,jdbcType=VARCHAR},
+      </if>
+      <if test="developerName != null" >
+        #{developerName,jdbcType=VARCHAR},
+      </if>
+      <if test="mallFloorSize != null" >
+        #{mallFloorSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallHandbook != null" >
+        #{mallHandbook,jdbcType=VARCHAR},
+      </if>
+      <if test="mallLongitude != null" >
+        #{mallLongitude,jdbcType=INTEGER},
+      </if>
+      <if test="mallLatitude != null" >
+        #{mallLatitude,jdbcType=INTEGER},
+      </if>
+      <if test="mallLogo != null" >
+        #{mallLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="mallParking != null" >
+        #{mallParking,jdbcType=INTEGER},
+      </if>
+      <if test="mallPropertyCompany != null" >
+        #{mallPropertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="mallRentSize != null" >
+        #{mallRentSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallTel != null" >
+        #{mallTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mallType != null" >
+        #{mallType,jdbcType=VARCHAR},
+      </if>
+      <if test="mallUnderFloor != null" >
+        #{mallUnderFloor,jdbcType=TINYINT},
+      </if>
+      <if test="mallUpperFloor != null" >
+        #{mallUpperFloor,jdbcType=TINYINT},
+      </if>
+      <if test="mallWebsite != null" >
+        #{mallWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="mallWeibo != null" >
+        #{mallWeibo,jdbcType=VARCHAR},
+      </if>
+      <if test="mallWeixin != null" >
+        #{mallWeixin,jdbcType=VARCHAR},
+      </if>
+      <if test="spiderChannelId != null" >
+        #{spiderChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelWebId != null" >
+        #{spiderChannelWebId,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelHot != null" >
+        #{spiderChannelHot,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelHotOld != null" >
+        #{spiderChannelHotOld,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelHotUp != null" >
+        #{spiderChannelHotUp,jdbcType=INTEGER},
+      </if>
+      <if test="mallSearchName != null" >
+        #{mallSearchName,jdbcType=VARCHAR},
+      </if>
+      <if test="mallBaikeUrl != null" >
+        #{mallBaikeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="mallInWeb != null" >
+        #{mallInWeb,jdbcType=TINYINT},
+      </if>
+      <if test="weekdayHours != null" >
+        #{weekdayHours,jdbcType=VARCHAR},
+      </if>
+      <if test="weekendHours != null" >
+        #{weekendHours,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleId != null" >
+        #{businessCircleId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="mallHasContact != null" >
+        #{mallHasContact,jdbcType=TINYINT},
+      </if>
+      <if test="mallSearchOption != null" >
+        #{mallSearchOption,jdbcType=VARCHAR},
+      </if>
+      <if test="mallSearchKeywords != null" >
+        #{mallSearchKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="mallStatus != null" >
+        #{mallStatus,jdbcType=TINYINT},
+      </if>
+      <if test="mallCombineStatus != null" >
+        #{mallCombineStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.fangcheng.mybatis.po.MallExample" resultType="java.lang.Integer" >
+    select count(*) from mall
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mall
+    <set >
+      <if test="record.mallId != null" >
+        mall_id = #{record.mallId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallName != null" >
+        mall_name = #{record.mallName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallDesc != null" >
+        mall_desc = #{record.mallDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallCtime != null" >
+        mall_ctime = #{record.mallCtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mallOpeningDate != null" >
+        mall_opening_date = #{record.mallOpeningDate,jdbcType=DATE},
+      </if>
+      <if test="record.mallClosedDate != null" >
+        mall_closed_date = #{record.mallClosedDate,jdbcType=DATE},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.districtId != null" >
+        district_id = #{record.districtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallAddress != null" >
+        mall_address = #{record.mallAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallBuildingSize != null" >
+        mall_building_size = #{record.mallBuildingSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallBusinessSize != null" >
+        mall_business_size = #{record.mallBusinessSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallCoverArea != null" >
+        mall_cover_area = #{record.mallCoverArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.developerName != null" >
+        developer_name = #{record.developerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallFloorSize != null" >
+        mall_floor_size = #{record.mallFloorSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallHandbook != null" >
+        mall_handbook = #{record.mallHandbook,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallLongitude != null" >
+        mall_longitude = #{record.mallLongitude,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallLatitude != null" >
+        mall_latitude = #{record.mallLatitude,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallLogo != null" >
+        mall_logo = #{record.mallLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallParking != null" >
+        mall_parking = #{record.mallParking,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallPropertyCompany != null" >
+        mall_property_company = #{record.mallPropertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallRentSize != null" >
+        mall_rent_size = #{record.mallRentSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallTel != null" >
+        mall_tel = #{record.mallTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallType != null" >
+        mall_type = #{record.mallType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallUnderFloor != null" >
+        mall_under_floor = #{record.mallUnderFloor,jdbcType=TINYINT},
+      </if>
+      <if test="record.mallUpperFloor != null" >
+        mall_upper_floor = #{record.mallUpperFloor,jdbcType=TINYINT},
+      </if>
+      <if test="record.mallWebsite != null" >
+        mall_website = #{record.mallWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallWeibo != null" >
+        mall_weibo = #{record.mallWeibo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallWeixin != null" >
+        mall_weixin = #{record.mallWeixin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spiderChannelId != null" >
+        spider_channel_id = #{record.spiderChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.spiderChannelWebId != null" >
+        spider_channel_web_id = #{record.spiderChannelWebId,jdbcType=INTEGER},
+      </if>
+      <if test="record.spiderChannelHot != null" >
+        spider_channel_hot = #{record.spiderChannelHot,jdbcType=INTEGER},
+      </if>
+      <if test="record.spiderChannelHotOld != null" >
+        spider_channel_hot_old = #{record.spiderChannelHotOld,jdbcType=INTEGER},
+      </if>
+      <if test="record.spiderChannelHotUp != null" >
+        spider_channel_hot_up = #{record.spiderChannelHotUp,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallSearchName != null" >
+        mall_search_name = #{record.mallSearchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallBaikeUrl != null" >
+        mall_baike_url = #{record.mallBaikeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallInWeb != null" >
+        mall_in_web = #{record.mallInWeb,jdbcType=TINYINT},
+      </if>
+      <if test="record.weekdayHours != null" >
+        weekday_hours = #{record.weekdayHours,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weekendHours != null" >
+        weekend_hours = #{record.weekendHours,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessCircleId != null" >
+        business_circle_id = #{record.businessCircleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallHasContact != null" >
+        mall_has_contact = #{record.mallHasContact,jdbcType=TINYINT},
+      </if>
+      <if test="record.mallSearchOption != null" >
+        mall_search_option = #{record.mallSearchOption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallSearchKeywords != null" >
+        mall_search_keywords = #{record.mallSearchKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mallStatus != null" >
+        mall_status = #{record.mallStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.mallCombineStatus != null" >
+        mall_combine_status = #{record.mallCombineStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mall
+    set mall_id = #{record.mallId,jdbcType=INTEGER},
+      mall_name = #{record.mallName,jdbcType=VARCHAR},
+      mall_desc = #{record.mallDesc,jdbcType=VARCHAR},
+      mall_ctime = #{record.mallCtime,jdbcType=TIMESTAMP},
+      mall_opening_date = #{record.mallOpeningDate,jdbcType=DATE},
+      mall_closed_date = #{record.mallClosedDate,jdbcType=DATE},
+      area_id = #{record.areaId,jdbcType=INTEGER},
+      district_id = #{record.districtId,jdbcType=INTEGER},
+      mall_address = #{record.mallAddress,jdbcType=VARCHAR},
+      mall_building_size = #{record.mallBuildingSize,jdbcType=INTEGER},
+      mall_business_size = #{record.mallBusinessSize,jdbcType=INTEGER},
+      mall_cover_area = #{record.mallCoverArea,jdbcType=VARCHAR},
+      developer_name = #{record.developerName,jdbcType=VARCHAR},
+      mall_floor_size = #{record.mallFloorSize,jdbcType=INTEGER},
+      mall_handbook = #{record.mallHandbook,jdbcType=VARCHAR},
+      mall_longitude = #{record.mallLongitude,jdbcType=INTEGER},
+      mall_latitude = #{record.mallLatitude,jdbcType=INTEGER},
+      mall_logo = #{record.mallLogo,jdbcType=VARCHAR},
+      mall_parking = #{record.mallParking,jdbcType=INTEGER},
+      mall_property_company = #{record.mallPropertyCompany,jdbcType=VARCHAR},
+      mall_rent_size = #{record.mallRentSize,jdbcType=INTEGER},
+      mall_tel = #{record.mallTel,jdbcType=VARCHAR},
+      mall_type = #{record.mallType,jdbcType=VARCHAR},
+      mall_under_floor = #{record.mallUnderFloor,jdbcType=TINYINT},
+      mall_upper_floor = #{record.mallUpperFloor,jdbcType=TINYINT},
+      mall_website = #{record.mallWebsite,jdbcType=VARCHAR},
+      mall_weibo = #{record.mallWeibo,jdbcType=VARCHAR},
+      mall_weixin = #{record.mallWeixin,jdbcType=VARCHAR},
+      spider_channel_id = #{record.spiderChannelId,jdbcType=INTEGER},
+      spider_channel_web_id = #{record.spiderChannelWebId,jdbcType=INTEGER},
+      spider_channel_hot = #{record.spiderChannelHot,jdbcType=INTEGER},
+      spider_channel_hot_old = #{record.spiderChannelHotOld,jdbcType=INTEGER},
+      spider_channel_hot_up = #{record.spiderChannelHotUp,jdbcType=INTEGER},
+      mall_search_name = #{record.mallSearchName,jdbcType=VARCHAR},
+      mall_baike_url = #{record.mallBaikeUrl,jdbcType=VARCHAR},
+      mall_in_web = #{record.mallInWeb,jdbcType=TINYINT},
+      weekday_hours = #{record.weekdayHours,jdbcType=VARCHAR},
+      weekend_hours = #{record.weekendHours,jdbcType=VARCHAR},
+      business_circle_id = #{record.businessCircleId,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      mall_has_contact = #{record.mallHasContact,jdbcType=TINYINT},
+      mall_search_option = #{record.mallSearchOption,jdbcType=VARCHAR},
+      mall_search_keywords = #{record.mallSearchKeywords,jdbcType=VARCHAR},
+      mall_status = #{record.mallStatus,jdbcType=TINYINT},
+      mall_combine_status = #{record.mallCombineStatus,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fangcheng.mybatis.po.Mall" >
+    update mall
+    <set >
+      <if test="mallName != null" >
+        mall_name = #{mallName,jdbcType=VARCHAR},
+      </if>
+      <if test="mallDesc != null" >
+        mall_desc = #{mallDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mallCtime != null" >
+        mall_ctime = #{mallCtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mallOpeningDate != null" >
+        mall_opening_date = #{mallOpeningDate,jdbcType=DATE},
+      </if>
+      <if test="mallClosedDate != null" >
+        mall_closed_date = #{mallClosedDate,jdbcType=DATE},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="districtId != null" >
+        district_id = #{districtId,jdbcType=INTEGER},
+      </if>
+      <if test="mallAddress != null" >
+        mall_address = #{mallAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mallBuildingSize != null" >
+        mall_building_size = #{mallBuildingSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallBusinessSize != null" >
+        mall_business_size = #{mallBusinessSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallCoverArea != null" >
+        mall_cover_area = #{mallCoverArea,jdbcType=VARCHAR},
+      </if>
+      <if test="developerName != null" >
+        developer_name = #{developerName,jdbcType=VARCHAR},
+      </if>
+      <if test="mallFloorSize != null" >
+        mall_floor_size = #{mallFloorSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallHandbook != null" >
+        mall_handbook = #{mallHandbook,jdbcType=VARCHAR},
+      </if>
+      <if test="mallLongitude != null" >
+        mall_longitude = #{mallLongitude,jdbcType=INTEGER},
+      </if>
+      <if test="mallLatitude != null" >
+        mall_latitude = #{mallLatitude,jdbcType=INTEGER},
+      </if>
+      <if test="mallLogo != null" >
+        mall_logo = #{mallLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="mallParking != null" >
+        mall_parking = #{mallParking,jdbcType=INTEGER},
+      </if>
+      <if test="mallPropertyCompany != null" >
+        mall_property_company = #{mallPropertyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="mallRentSize != null" >
+        mall_rent_size = #{mallRentSize,jdbcType=INTEGER},
+      </if>
+      <if test="mallTel != null" >
+        mall_tel = #{mallTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mallType != null" >
+        mall_type = #{mallType,jdbcType=VARCHAR},
+      </if>
+      <if test="mallUnderFloor != null" >
+        mall_under_floor = #{mallUnderFloor,jdbcType=TINYINT},
+      </if>
+      <if test="mallUpperFloor != null" >
+        mall_upper_floor = #{mallUpperFloor,jdbcType=TINYINT},
+      </if>
+      <if test="mallWebsite != null" >
+        mall_website = #{mallWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="mallWeibo != null" >
+        mall_weibo = #{mallWeibo,jdbcType=VARCHAR},
+      </if>
+      <if test="mallWeixin != null" >
+        mall_weixin = #{mallWeixin,jdbcType=VARCHAR},
+      </if>
+      <if test="spiderChannelId != null" >
+        spider_channel_id = #{spiderChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelWebId != null" >
+        spider_channel_web_id = #{spiderChannelWebId,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelHot != null" >
+        spider_channel_hot = #{spiderChannelHot,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelHotOld != null" >
+        spider_channel_hot_old = #{spiderChannelHotOld,jdbcType=INTEGER},
+      </if>
+      <if test="spiderChannelHotUp != null" >
+        spider_channel_hot_up = #{spiderChannelHotUp,jdbcType=INTEGER},
+      </if>
+      <if test="mallSearchName != null" >
+        mall_search_name = #{mallSearchName,jdbcType=VARCHAR},
+      </if>
+      <if test="mallBaikeUrl != null" >
+        mall_baike_url = #{mallBaikeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="mallInWeb != null" >
+        mall_in_web = #{mallInWeb,jdbcType=TINYINT},
+      </if>
+      <if test="weekdayHours != null" >
+        weekday_hours = #{weekdayHours,jdbcType=VARCHAR},
+      </if>
+      <if test="weekendHours != null" >
+        weekend_hours = #{weekendHours,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCircleId != null" >
+        business_circle_id = #{businessCircleId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="mallHasContact != null" >
+        mall_has_contact = #{mallHasContact,jdbcType=TINYINT},
+      </if>
+      <if test="mallSearchOption != null" >
+        mall_search_option = #{mallSearchOption,jdbcType=VARCHAR},
+      </if>
+      <if test="mallSearchKeywords != null" >
+        mall_search_keywords = #{mallSearchKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="mallStatus != null" >
+        mall_status = #{mallStatus,jdbcType=TINYINT},
+      </if>
+      <if test="mallCombineStatus != null" >
+        mall_combine_status = #{mallCombineStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where mall_id = #{mallId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fangcheng.mybatis.po.Mall" >
+    update mall
+    set mall_name = #{mallName,jdbcType=VARCHAR},
+      mall_desc = #{mallDesc,jdbcType=VARCHAR},
+      mall_ctime = #{mallCtime,jdbcType=TIMESTAMP},
+      mall_opening_date = #{mallOpeningDate,jdbcType=DATE},
+      mall_closed_date = #{mallClosedDate,jdbcType=DATE},
+      area_id = #{areaId,jdbcType=INTEGER},
+      district_id = #{districtId,jdbcType=INTEGER},
+      mall_address = #{mallAddress,jdbcType=VARCHAR},
+      mall_building_size = #{mallBuildingSize,jdbcType=INTEGER},
+      mall_business_size = #{mallBusinessSize,jdbcType=INTEGER},
+      mall_cover_area = #{mallCoverArea,jdbcType=VARCHAR},
+      developer_name = #{developerName,jdbcType=VARCHAR},
+      mall_floor_size = #{mallFloorSize,jdbcType=INTEGER},
+      mall_handbook = #{mallHandbook,jdbcType=VARCHAR},
+      mall_longitude = #{mallLongitude,jdbcType=INTEGER},
+      mall_latitude = #{mallLatitude,jdbcType=INTEGER},
+      mall_logo = #{mallLogo,jdbcType=VARCHAR},
+      mall_parking = #{mallParking,jdbcType=INTEGER},
+      mall_property_company = #{mallPropertyCompany,jdbcType=VARCHAR},
+      mall_rent_size = #{mallRentSize,jdbcType=INTEGER},
+      mall_tel = #{mallTel,jdbcType=VARCHAR},
+      mall_type = #{mallType,jdbcType=VARCHAR},
+      mall_under_floor = #{mallUnderFloor,jdbcType=TINYINT},
+      mall_upper_floor = #{mallUpperFloor,jdbcType=TINYINT},
+      mall_website = #{mallWebsite,jdbcType=VARCHAR},
+      mall_weibo = #{mallWeibo,jdbcType=VARCHAR},
+      mall_weixin = #{mallWeixin,jdbcType=VARCHAR},
+      spider_channel_id = #{spiderChannelId,jdbcType=INTEGER},
+      spider_channel_web_id = #{spiderChannelWebId,jdbcType=INTEGER},
+      spider_channel_hot = #{spiderChannelHot,jdbcType=INTEGER},
+      spider_channel_hot_old = #{spiderChannelHotOld,jdbcType=INTEGER},
+      spider_channel_hot_up = #{spiderChannelHotUp,jdbcType=INTEGER},
+      mall_search_name = #{mallSearchName,jdbcType=VARCHAR},
+      mall_baike_url = #{mallBaikeUrl,jdbcType=VARCHAR},
+      mall_in_web = #{mallInWeb,jdbcType=TINYINT},
+      weekday_hours = #{weekdayHours,jdbcType=VARCHAR},
+      weekend_hours = #{weekendHours,jdbcType=VARCHAR},
+      business_circle_id = #{businessCircleId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
+      mall_has_contact = #{mallHasContact,jdbcType=TINYINT},
+      mall_search_option = #{mallSearchOption,jdbcType=VARCHAR},
+      mall_search_keywords = #{mallSearchKeywords,jdbcType=VARCHAR},
+      mall_status = #{mallStatus,jdbcType=TINYINT},
+      mall_combine_status = #{mallCombineStatus,jdbcType=TINYINT}
+    where mall_id = #{mallId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="cn.fangcheng.mybatis.po.MallExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mall
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

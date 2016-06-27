@@ -1,0 +1,11 @@
+		招商选址需求服务器配置修改
+其中配置文件 db.properties中的
+三个字段需要修改为服务器的地址
+jdbc.url=jdbc:mysql://192.168.1.134:3306/fangcheng_global
+jdbc.username=fangcheng_admin
+jdbc.password=fc1234
+
+
+jdbc.url=jdbc:mysql://10.172.184.101:3306/fangcheng_global
+jdbc.username=fangcheng_admin
+jdbc.password=wlj9$w6MW

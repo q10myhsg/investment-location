@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.fangcheng.mybatis.mapper.PassportMapper" >
+  
+  <!-- 将新增用户信息同步到passport_deal表中  -->
+  <update id="insertFromV2">
+    INSERT INTO fangcheng_data_team.passport_deal 
+	SELECT 
+	  * 
+	FROM
+	  fangcheng_v2.passport p 
+	WHERE p.passport_id NOT IN 
+	  (SELECT DISTINCT 
+	    (passport_id) 
+	  FROM
+	    fangcheng_data_team.passport_deal)
+  </update>
+  <!-- 更新用户的登录地列表  -->
+  <update id="updateForLogincity" parameterType="Passport">
+  	UPDATE 
+	  fangcheng_data_team.passport_deal p 
+	SET
+	  p.login_city = #{login_city} 
+	WHERE p.passport_id = #{passport_id}
+  </update>
+  <!-- 根据用户id查询用户信息 -->
+  <select id="selectByPassportId" parameterType="java.lang.Integer" resultType="Passport">
+  	SELECT 
+	  * 
+	FROM
+	  fangcheng_v2.passport p 
+	WHERE p.passport_id = #{passport_id}
+  </select>
+  <!-- 查询所有的用户id -->
+  <select id="selectAllPassportId" resultType="Passport">
+  	SELECT 
+	  distinct(passport_id) passport_id
+	FROM
+	  fangcheng_v2.passport p
+  </select>
+  
+</mapper>

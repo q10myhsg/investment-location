@@ -1,0 +1,46 @@
+html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+	pre, a, address, big, cite, code, del, em, font, img, ins, small,
+	strong, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form,
+	label, legend {
+	margin: 0px;
+	padding: 0px;
+}
+
+.main {
+	
+}
+
+.demand {
+	border: 1px #c0c0c0 solid;
+	width: 600px;
+	color: #c0c0c0:
+}
+
+.colorRed {
+	color: red;
+}
+
+.divcss1 {
+	width: 600px;
+	background: #d7d9d7;
+}
+
+.obj {
+	width: 600px;
+	float;
+	left;
+}
+
+.leftObj {
+	width: 200px;
+	float: left;
+}
+
+.rightObj {
+	width: 400px;
+	float: left;
+}
+
+.block {
+	higth: 4px;
+}

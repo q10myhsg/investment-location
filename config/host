@@ -1,0 +1,3 @@
+192.168.1.64 master fcmaster-node fcnode-11 fcnode-02 fcnode-01
+192.168.1.11 slave1 fcnode-12 fcnode-03 fcredis
+192.168.1.65 slave2 fcnode-04

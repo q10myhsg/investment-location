@@ -1,0 +1,17 @@
+POST /_aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "search_shop_20150819",
+        "alias": "search_shop"
+      }
+    },
+    {
+      "add": {
+        "index": "search_shop_20150821",
+        "alias": "search_shop"
+      }
+    }
+  ]
+}

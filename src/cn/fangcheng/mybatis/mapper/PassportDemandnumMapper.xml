@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fangcheng.mybatis.mapper.PassportDemandnumMapper">
+
+  <insert id="deleteByctime" parameterType="java.lang.String" >
+    delete from fangcheng_data_team.passport_demandnum where exec_date = DATE_FORMAT( #{exec_date}, '%Y-%m-%d')
+  </insert>
+  <!-- 插入数据  -->
+  <insert id="insertInto" parameterType="PassportDemandnum">
+  	INSERT INTO fangcheng_data_team.passport_demandnum (
+	  passport_id,
+	  exec_date,
+	  demand_num,
+	  demand_type
+	) 
+	VALUES
+	(
+	 #{passport_id},
+	 #{exec_date},
+	 #{demand_num},
+	 #{demand_type} 
+	)
+  </insert>
+</mapper>

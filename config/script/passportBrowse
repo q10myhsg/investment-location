@@ -1,0 +1,63 @@
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "range": {
+                "@timestamp": {
+                  "gte": "#timestamp",
+                  "lte": "#timestamp"
+                }
+              }
+            },
+            {
+              "terms": {
+                "request_module":["/ucenter/demandshow","/mallshop/search","/details/brand","/details/mall","/search/index"]
+              }
+            },
+            {
+              "exists": {
+                "field": "user_id"
+              }
+            },
+            {
+              "not": {
+                "filter": {
+                  "terms": {
+                    "user_id": ["\"-\""]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "aggs": {
+    "user_id":{
+      "terms": {
+        "field": "user_id",
+        "size": 0
+      },
+      "aggs": {
+        "request_module": {
+          "terms": {
+            "field": "request_module",
+            "size": 0
+          },
+          "aggs": {
+            "count(*)": {
+              "value_count": {
+                "field": "_index"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "size": 0
+}

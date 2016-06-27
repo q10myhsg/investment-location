@@ -1,0 +1,1 @@
+0.3-(3/(doc['info.malldata.res3'].value+10))+0.3-(3/(doc['info.malldata.office3'].value+10))+0.3-(3/(doc['info.malldata.travel3'].value+10))+0.3-(3/(doc['info.malldata.college3'].value+10))+0.3-(3/(doc['info.malldata.buses'].value+10))+0.3-(3/(doc['info.malldata.subway'].value+10))

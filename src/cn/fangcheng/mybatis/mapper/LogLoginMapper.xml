@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.fangcheng.mybatis.mapper.LogLoginMapper">
+  
+  <!-- 统计用户登录地的占比情况 -->
+  <select id="loginCityPercent" parameterType="LogLogin" resultType="LogLogin">
+  	SELECT 
+	  f.log_login_ip,
+	  COUNT(1) login_num,
+	  COUNT(1) / d.num * 100 login_Percent 
+	FROM
+	  fangcheng_v2.log_login f,
+	  (SELECT 
+	    COUNT(1) num,
+	    passport_id 
+	  FROM
+	    fangcheng_v2.log_login 
+	  WHERE passport_id = #{passport_id} 
+	    AND DATE_FORMAT(log_login_ctime, '%Y-%m') = #{exec_date}) d 
+	WHERE f.passport_id = #{passport_id} 
+	  AND f.passport_id = d.passport_id 
+	  AND DATE_FORMAT(f.log_login_ctime, '%Y-%m') = #{exec_date}
+	GROUP BY f.log_login_ip
+  </select>
+  <!-- 查询本月登录用户的id列表  -->
+  <select id="distinctPassportid" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT DISTINCT 
+	  (passport_id) 
+	FROM
+	  fangcheng_v2.log_login 
+	WHERE DATE_FORMAT(log_login_ctime, '%Y-%m') = #{exec_date}
+  </select>
+  <!-- 避免重复统计用户登录次数，在统计之前先清理一下  -->
+  <delete id="deleteByCtime" parameterType="java.lang.String">
+    DELETE 
+	FROM
+	  fangcheng_data_team.login_deal 
+	WHERE exec_date = #{exec_date}
+  </delete>
+  <!-- 按天统计用户登录次数 -->
+  <insert id="groupByCtime" parameterType="java.lang.String">
+  	INSERT INTO fangcheng_data_team.login_deal 
+	SELECT 
+	  l.passport_id,
+	  COUNT(1) login_num,
+	  DATE_FORMAT(l.`log_login_ctime`, '%Y-%m-%d') exec_date 
+	FROM
+	  fangcheng_v2.log_login l 
+	WHERE DATE_FORMAT(l.log_login_ctime, '%Y-%m-%d') = #{exec_date}
+	GROUP BY l.passport_id,
+	  DATE_FORMAT(l.`log_login_ctime`, '%Y-%m-%d')
+  </insert>
+  
+  <select id="groupBypassportIdCtime" parameterType="LogLogin" resultType="LogLogin">
+  	SELECT
+	  l.passport_id,
+	  COUNT(1) login_num,
+	  DATE_FORMAT(l.`log_login_ctime`, '%Y%m%d') exec_date
+	FROM
+	  fangcheng_v2.log_login l
+	WHERE l.passport_id = #{passport_id}
+	  AND DATE_FORMAT(l.log_login_ctime, '%Y%m%d') = #{exec_date}
+	GROUP BY l.passport_id,
+	  DATE_FORMAT(l.`log_login_ctime`, '%Y%m%d')
+  </select>
+  
+  <select id="selectBypassportIdCtime" parameterType="LogLogin" resultType="LogLogin">
+  	SELECT
+	  *
+	FROM
+	  fangcheng_v2.log_login l
+	WHERE l.passport_id = #{passport_id}
+	  AND DATE_FORMAT(l.log_login_ctime, '%Y-%m-%d') = #{exec_date}
+  </select>
+  
+</mapper>

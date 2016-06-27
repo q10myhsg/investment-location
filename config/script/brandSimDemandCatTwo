@@ -1,0 +1,268 @@
+{
+  "query":{
+    "filtered": {
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "not": {
+                "filter": {
+                  "query": {
+                    "match": {
+                      "passport_id": ${_source.passport_id default=0}
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "term": {
+                "demand_type": 1
+              }
+            },
+            {
+              "range": {
+                "infoScore.demand_ctime_val": {
+                  "gte": ${time default=0},
+                  "lte": ${timeEnd default=2444895400000}
+                }
+              }
+            },
+            {
+              "terms": {
+                "area_id": ${_source.area_id default=[0]}
+              }
+            }
+          ]
+        }
+      },
+      "query": {
+        "function_score": {
+          "functions": [
+          	{
+              "weight": -2,
+              "filter": {
+                "terms": {
+                  "category_ids": [1000000]
+                }
+              }
+            },
+            {
+              "weight": 13,
+              "filter": {
+                "terms": {
+                  "category_name.cat1": ${_source.category_name.cat1 default=[""]}
+                }
+              }
+            },
+            {
+              "weight": 5,
+              "filter": {
+                "terms": {
+                  "category_name.cat2": ${_source.category_name.cat2 default=[""]}
+                }
+              }
+            },
+            {
+              "weight": -13, 
+              "filter": {
+                "not": {
+                  "filter": {
+                    "terms": {
+                      "category_name.cat2": ${_source.category_name.cat2 default=[""]}
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "weight": 13,
+              "filter": {
+                "not": {
+                  "filter": {
+                    "exists": {
+                      "field": "category_name.cat2"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "weight": 3, 
+              "filter": {
+                "exists": {
+                  "field": "category_name.cat3"
+                }
+              }
+            },
+            {
+              "weight": 1.4,
+              "filter": {
+                "term": {
+                  "demand_status": 2
+                }
+              }
+            },
+            {
+              "weight": 1.3,
+              "filter": {
+                "term": {
+                  "demand_status": 1
+                }
+              }
+            },
+            {
+              "weight": 1.1,
+              "filter": {
+                "term": {
+                  "demand_status": 0
+                }
+              }
+            },
+            {
+              "weight": 1.05,
+              "filter": {
+                "term": {
+                  "demand_show_mobile": 1
+                }
+              }
+            },
+            {
+              "weight": 1.02,
+              "filter": {
+                "term": {
+                  "demand_show_mobile": 2
+                }
+              }
+            },
+            {
+              "weight": 1.5,
+              "filter": {
+                "range": {
+                  "tag.areaDemand.lower": {
+                    "gte": ${_source.tag.areaDemand.lower coefficient=0.8 default=0},
+                    "lte": ${_source.tag.areaDemand.upper coefficient=1.2 default=0}
+                  }
+                }
+              }
+            },
+            {
+              "weight": 1.5,
+              "filter": {
+                "range": {
+                  "tag.areaDemand.upper": {
+                    "gte": ${_source.tag.areaDemand.lower coefficient=0.8 default=0},
+                    "lte": ${_source.tag.areaDemand.upper coefficient=1.2 default=0}
+                  }
+                }
+              }
+            },
+            {
+              "weight": 1.2,
+              "filter": {
+                "terms": {
+					"tag.preferredPropertyAll":${_source.tag.preferredPropertyAll default=[""]}
+                }
+              }
+            },
+            {
+              "weight": 1.2,
+              "filter": {
+                "terms": {
+                  "tag.shopSpecificationsAll":${_source.tag.shopSpecificationsAll default=[""]}
+                }
+              }
+            },
+            {
+              "weight": 1.3,
+              "filter": {
+                "range": {
+                  "tag.termCooperation": {
+                    "gte":  ${_source.tag.termCooperation index=0 default=0},
+                    "lte":  ${_source.tag.termCooperation index=0 default=0}
+                  }
+                }
+              }
+            },
+            {
+              "filter": {
+                "query": {
+                  "match_all": {}
+                }
+              },
+              "script_score": {
+                "script": "1/(nowtime-doc['infoScore.demand_ctime_day'].value+1)+0.5",
+                "lang":"groovy",
+                "params": {
+                  "nowtime":${now}
+                }
+              }
+            },
+            {
+              "filter": {
+                "exists": {
+                  "field": "info"
+                }
+              },
+              "script_score": {
+                "lang":"groovy",
+                "file":"mallMatchDemand",
+                "params": {
+                  "param1":0.3,
+                  "param2":3,
+                  "param3":10
+                }
+              }
+            },
+            {
+              "weight": 0.3,
+              "filter": {
+                "term": {
+                  "info.brand_inChengTV": 1
+                }
+              }
+            },
+            {
+              "weight": 0.3,
+              "filter": {
+                "term": {
+                  "info.brand_inRecommend": 1
+                }
+              }
+            },
+            {
+              "filter": {
+                "exists": {
+                  "field": "user"
+                }
+              },
+              "script_score": {
+                "script": "doc['user.activity_log10'].value*activity",
+                "lang":"groovy",
+                "params": {
+                  "activity":0.5
+                }
+              }
+            }
+          ],
+          "score_mode": "sum",
+          "min_score":13
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "_score": {
+        "order": "desc"
+      }
+    },
+    {
+      "infoScore.demand_level": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": ${from},
+  "size": ${size}
+}

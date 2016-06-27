@@ -1,0 +1,17 @@
+{
+  "query":{
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand_id": {
+              "query": {?0}
+            }
+          }
+        }
+      ]
+    }
+  },
+  "from":{?1},
+  "size":{?2}
+}
